@@ -74,52 +74,41 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
             }
         });
 
+        holder.messageImage.setVisibility(View.VISIBLE);
+        holder.messageText.setVisibility(View.VISIBLE);
 
-        if (from_user.equals(current_user_id)) {
 
-            holder.profileImage.setVisibility(View.INVISIBLE);
-            holder.layout.setGravity(Gravity.END);
+        if (message_type.equals("text")){
 
-            if (message_type.equals("text")) {
+            holder.messageText.setBackgroundResource(R.drawable.message_text_backgroup);
+            holder.messageText.setText(c.getMessage());
+            holder.messageImage.setVisibility(View.GONE);
 
-                holder.messageText.setBackgroundResource(R.drawable.message_text_backgroup);
+            if (from_user.equals(current_user_id)){
+
+                holder.profileImage.setVisibility(View.INVISIBLE);
+                holder.layout.setGravity(Gravity.END);
                 holder.messageText.setBackgroundColor(Color.WHITE);
                 holder.messageText.setTextColor(Color.BLACK);
-                holder.messageText.setText(c.getMessage());
-                holder.messageImage.setVisibility(View.INVISIBLE);
             }
-            else if (message_type.equals("image")){
 
-                Picasso.with(holder.profileImage.getContext()).load(c.getMessage()).placeholder(R.drawable.default_avatar).into(holder.messageImage);
-                holder.messageText.setVisibility(View.INVISIBLE);
+            else {
+                holder.messageText.setTextColor(Color.WHITE);
+            }
+        }
 
+        else if (message_type.equals("image")){
+
+            Picasso.with(holder.profileImage.getContext()).load(c.getMessage()).placeholder(R.drawable.default_avatar).into(holder.messageImage);
+            holder.messageText.setVisibility(View.GONE);
+
+            if (from_user.equals(current_user_id)){
+
+                holder.profileImage.setVisibility(View.INVISIBLE);
+                holder.layout.setGravity(Gravity.END);
             }
 
         }
-
-        else {
-
-            if (message_type.equals("text")) {
-
-                holder.messageText.setBackgroundResource(R.drawable.message_text_backgroup);
-                holder.messageText.setTextColor(Color.WHITE);
-                holder.messageText.setText(c.getMessage());
-                holder.messageImage.setVisibility(View.INVISIBLE);
-                }
-
-            else if (message_type.equals("image")){
-
-                Picasso.with(holder.profileImage.getContext()).load(c.getMessage()).placeholder(R.drawable.default_avatar).into(holder.messageImage);
-                holder.messageText.setVisibility(View.INVISIBLE);
-            }
-
-            }
-
-        //else if (message_type.equals("image")){
-
-          //  Picasso.with(holder.profileImage.getContext()).load(c.getMessage()).placeholder(R.drawable.default_avatar).into(holder.messageImage);
-        //holder.messageText.setVisibility(View.INVISIBLE);
-        //}
 
     }
 
