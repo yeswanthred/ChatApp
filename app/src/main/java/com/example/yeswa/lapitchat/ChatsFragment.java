@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
@@ -100,6 +101,29 @@ public class ChatsFragment extends Fragment {
             protected void populateViewHolder(final ConvViewHolder viewHolder, final Conversation model, int position) {
 
                 final String list_user_id = getRef(position).getKey();
+
+                mConvDatabase.child(list_user_id).child("hide").addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+
+                        int heightView = viewHolder.mView.getHeight();
+
+                        if (dataSnapshot.getValue().toString().equals("true")){
+
+                            viewHolder.mView.getLayoutParams().height = 0;
+                        }
+
+                        else if (dataSnapshot.getValue().toString().equals("false")){
+
+                            viewHolder.mView.getLayoutParams().height = heightView;
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
 
                 Query lastMessageQuery = mMessageDatabase.child(list_user_id).limitToLast(1);
 

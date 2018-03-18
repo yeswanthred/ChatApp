@@ -169,6 +169,7 @@ public class ChatActivity extends AppCompatActivity {
 
                     Map chatAddMap =  new HashMap();
                     chatAddMap.put("seen", false);
+                    chatAddMap.put("hide", "false");
                     chatAddMap.put("timestamp", ServerValue.TIMESTAMP);
 
                     Map chatUserMap = new HashMap();
