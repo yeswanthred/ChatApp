@@ -1,12 +1,15 @@
 package com.example.yeswa.lapitchat;
 
 
+import android.app.VoiceInteractor;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -29,6 +32,8 @@ import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 import java.lang.annotation.ElementType;
+import java.util.HashMap;
+import java.util.Map;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -180,6 +185,56 @@ public class ChatsFragment extends Fragment {
                                 chatIntent.putExtra("user_id", list_user_id);
                                 chatIntent.putExtra("user_name", userName);
                                 startActivity(chatIntent);
+                            }
+                        });
+
+                        viewHolder.mView.setOnLongClickListener(new View.OnLongClickListener() {
+                            @Override
+                            public boolean onLongClick(View view) {
+
+                                CharSequence Option[] = new CharSequence[]{"Hide Chat", "Delete Chat"};
+
+                                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+
+                                builder.setTitle("Select Options");
+                                builder.setItems(Option, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                                        if (i == 0){
+
+                                            mConvDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+                                                @Override
+                                                public void onDataChange(DataSnapshot dataSnapshot) {
+                                                    if (dataSnapshot.child(list_user_id).child("hide").getValue().toString().equals("none")){
+                                                        mConvDatabase.child(list_user_id).child("hide").setValue("false");
+                                                    }
+
+                                                    else if (dataSnapshot.child(list_user_id).child("hide").getValue().toString().equals("false")){
+                                                        mConvDatabase.child(list_user_id).child("hide").setValue("none");
+                                                    }
+                                                }
+
+                                                @Override
+                                                public void onCancelled(DatabaseError databaseError) {
+
+                                                }
+                                            });
+
+
+                                        }
+
+                                        else if (i == 1){
+
+                                            mConvDatabase.child(list_user_id).removeValue();
+                                            mMessageDatabase.child(list_user_id).removeValue();
+                                            FirebaseDatabase.getInstance().getReference().child("Messages").child(list_user_id).child(mCurrent_user_id).removeValue();
+
+                                        }
+                                    }
+                                });
+                                builder.show();
+                                return true;
                             }
                         });
 

@@ -37,6 +37,7 @@ public class FriendsFragment extends Fragment {
 
     private DatabaseReference mFriendsDatabase;
     private DatabaseReference mUsersDatabase;
+    private DatabaseReference mConvDatabase;
     private FirebaseAuth mAuth;
 
     private String mCurrent_user_id;
@@ -59,6 +60,8 @@ public class FriendsFragment extends Fragment {
 
         mCurrent_user_id = mAuth.getCurrentUser().getUid();
         mFriendsDatabase = FirebaseDatabase.getInstance().getReference().child("Friends").child(mCurrent_user_id);
+        mConvDatabase = FirebaseDatabase.getInstance().getReference().child("Chats").child(mCurrent_user_id);
+        mConvDatabase.keepSynced(true);
         mFriendsDatabase.keepSynced(true);
         mUsersDatabase = FirebaseDatabase.getInstance().getReference().child("Users");
         mUsersDatabase.keepSynced(true);
@@ -87,6 +90,7 @@ public class FriendsFragment extends Fragment {
                 viewHolder.setDate(model.getDate());
 
                 final String list_user_id = getRef(position).getKey();
+
 
                 mUsersDatabase.child(list_user_id).addValueEventListener(new ValueEventListener() {
                     @Override
@@ -136,6 +140,7 @@ public class FriendsFragment extends Fragment {
                                 builder.show();
                             }
                         });
+
                     }
 
                     @Override

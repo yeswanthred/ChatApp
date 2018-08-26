@@ -4,12 +4,12 @@
     android:id="@+id/message_single_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="10dp">
+    android:padding="2dp">
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/message_profile_layout"
-        android:layout_width="56dp"
-        android:layout_height="56dp"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
         android:src="@drawable/default_avatar" />
 
     <TextView
@@ -20,7 +20,7 @@
         android:layout_alignParentTop="true"
         android:layout_toEndOf="@+id/message_profile_layout"
         android:background="@drawable/message_text_backgroup"
-        android:padding="15dp"
+        android:padding="5dp"
         android:text="TextView"
         android:textColor="@color/colorFont"
         android:textSize="14sp" />

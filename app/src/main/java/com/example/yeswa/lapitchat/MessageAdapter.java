@@ -1,6 +1,7 @@
 package com.example.yeswa.lapitchat;
 
 import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -82,6 +83,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
         if (message_type.equals("text")){
 
             holder.messageText.setBackgroundResource(R.drawable.message_text_backgroup);
+            GradientDrawable drawable = (GradientDrawable) holder.messageText.getBackground();
             holder.messageText.setText(c.getMessage());
             holder.messageImage.setVisibility(View.GONE);
 
@@ -89,11 +91,14 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
 
                 holder.profileImage.setVisibility(View.INVISIBLE);
                 holder.layout.setGravity(Gravity.END);
-                holder.messageText.setBackgroundColor(Color.WHITE);
+                drawable.setColor(Color.WHITE);
+
+//                holder.messageText.setBackgroundColor(Color.WHITE);
                 holder.messageText.setTextColor(Color.BLACK);
             }
 
             else {
+                drawable.setColor(Color.parseColor("#355C7D"));
                 holder.messageText.setTextColor(Color.WHITE);
             }
         }
